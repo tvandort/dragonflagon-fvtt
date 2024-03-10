@@ -31,7 +31,7 @@ export default class AngleSnaps {
 	}
 
 	static ready() {
-		libWrapper.register(SETTINGS.MOD_NAME, 'canvas.templates._onMouseWheel', function (this: TemplateLayer, event: MouseEvent): any {
+		libWrapper.register(SETTINGS.MOD_NAME, 'canvas.templates._onMouseWheel', function (this: TemplateLayerOverride, event: MouseEvent): any {
 			// Determine whether we have a hovered template?
 			const template = this.hover;
 			if (!template) return;

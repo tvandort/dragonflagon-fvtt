@@ -1,6 +1,6 @@
 import SETTINGS from "../../common/Settings";
 import LineToBoxCollision from "./LineToBoxCollision";
-import { TemplateConfig, HighlightMode } from "./TemplateConfig";
+import { TemplateConfig, HighlightMode} from "./TemplateConfig";
 
 function throttle<T>(fn: AnyFunction, threshhold?: number): T {
 	threshhold || (threshhold = 250);
@@ -137,7 +137,7 @@ export default class TemplateTargeting {
 
 	static ready() {
 		// This is used to throttle the number of UI updates made to a set number of Frames Per Second.
-		const ThrottledTemplateRefresh = throttle<(w?: AnyFunction) => void>(function (this: MeasuredTemplate) {
+		const ThrottledTemplateRefresh = throttle<(w?: AnyFunction) => void>(function (this: MeasuredTemplateOverride) {
 			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			TemplateTargeting._MeasuredTemplate_highlightGrid.apply(this);
 		}, 1000 / 20);// Throttle to 20fps
@@ -170,7 +170,7 @@ export default class TemplateTargeting {
 		canvas.controls.addChild(TemplateTargeting.PointGraphContainer);
 	}
 
-	private static _MeasuredTemplate_highlightGrid(this: MeasuredTemplate) {
+	private static _MeasuredTemplate_highlightGrid(this: MeasuredTemplateOverride) {
 		const mode = SETTINGS.get<string>(TemplateTargeting.TARGETING_MODE_PREF);
 		const shouldAutoSelect = mode === 'always' || (mode === 'toggle' && SETTINGS.get<boolean>(TemplateTargeting.TARGETING_TOGGLE_PREF));
 		const isOwner = this.document.user.id === game.userId;
@@ -215,7 +215,7 @@ export default class TemplateTargeting {
 		return shapeBounds;
 	}
 
-	private static _handleTouchTemplate(this: MeasuredTemplate, isOwner: boolean, shouldAutoSelect: boolean) {
+	private static _handleTouchTemplate(this: MeasuredTemplateOverride, isOwner: boolean, shouldAutoSelect: boolean) {
 		/************** THIS CODE IS DIRECTLY COPIED FROM 'MeasuredTemplate.prototype.highlightGrid' ****************/
 		const grid = canvas.grid;
 		const d = canvas.dimensions;
@@ -321,7 +321,7 @@ export default class TemplateTargeting {
 				const [gx, gy] = canvas.grid.grid.getPixelsFromGridPosition(row0 + r, col0 + c);
 				const testX = gx + hx;
 				const testY = gy + hy;
-				const testRect = new PIXI.Rectangle(gx, gy, canvas.grid.w, canvas.grid.h).normalize();
+				const testRect = (new PIXI.Rectangle(gx, gy, canvas.grid.w, canvas.grid.h) as PIXI.RectangleOverride) .normalize();
 				let contains = false;
 				switch (this.document.t) {
 					case "circle": {
@@ -459,14 +459,15 @@ export default class TemplateTargeting {
 				// Ignore changing the target selection if we don't own the template, or `shouldAutoSelect` is false
 				if ((!this.hover && this.id) || !isOwner || !shouldAutoSelect) continue;
 
+				const t = this.document.t as keyof typeof TemplateConfig.config;
 				// If we are using Point based targetting for this template
-				if (TemplateConfig.config[this.document.t] === HighlightMode.POINTS) {
+				if (TemplateConfig.config[t] === HighlightMode.POINTS) {
 					TemplateTargeting._selectTokensByPointContainment.bind(this)(isOwner, shouldAutoSelect, this.document, <PIXI.Polygon>this.shape, true);
 					continue;
 				}
 				// Iterate over all existing tokens and target the ones within the template area
 				for (const token of canvas.tokens.placeables) {
-					const tokenRect = new PIXI.Rectangle(token.x, token.y, token.w, token.h).normalize();
+					const tokenRect = (new PIXI.Rectangle(token.x, token.y, token.w, token.h)as PIXI.RectangleOverride).normalize();
 					if (testRect.left >= tokenRect.right || testRect.right <= tokenRect.left
 						|| testRect.top >= tokenRect.bottom || testRect.bottom <= tokenRect.top) continue;
 					token.setTarget(true, { user: game.user, releaseOthers: false, groupSelection: true });
