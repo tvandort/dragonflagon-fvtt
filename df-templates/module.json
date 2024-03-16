@@ -26,10 +26,10 @@
 		{ "lang": "ja", "path": "lang/ja.json", "name": "日本語" },
 		{ "lang": "pt-BR", "path": "lang/pt-BR.json", "name": "Português (Brasil)" }
 	],
-	"url":		"https://github.com/flamewave000/dragonflagon-fvtt/tree/master/df-templates",
+	"url":		"https://github.com/tvandort/dragonflagon-fvtt/tree/update-to-v11/df-templates",
 	"license":	"https://raw.githubusercontent.com/flamewave000/dragonflagon-fvtt/master/LICENSE",
-	"manifest":	"https://dragonflagon.cafe/mods/man/df-templates",
-	"download":	"https://dragonflagon.cafe/mods/pak/df-templates",
+	"manifest":	"https://github.com/tvandort/dragonflagon-fvtt/tree/update-to-v11/df-templates",
+	"download":	"https://github.com/tvandort/dragonflagon-fvtt/tree/update-to-v11/df-templates",
 	"readme":	"https://github.com/flamewave000/dragonflagon-fvtt/tree/master/df-templates/README.md",
 	"changelog":"https://github.com/flamewave000/dragonflagon-fvtt/tree/master/df-templates/CHANGELOG.md",
 	"manifestPlusVersion": "1.0.0",
