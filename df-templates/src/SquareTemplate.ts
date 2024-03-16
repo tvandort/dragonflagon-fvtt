@@ -21,7 +21,7 @@ export default class SquareTemplate {
 	private static patch() {
 		libWrapper.register(
 			SETTINGS.MOD_NAME,
-			"MeasuredTemplate.prototype.getRectShape",
+			"MeasuredTemplate.getRectShape",
 			SquareTemplate.MeasuredTemplate_getRectShape,
 			"OVERRIDE"
 		);
@@ -35,7 +35,7 @@ export default class SquareTemplate {
 	private static unpatch() {
 		libWrapper.unregister(
 			SETTINGS.MOD_NAME,
-			"MeasuredTemplate.prototype.getRectShape",
+			"MeasuredTemplate.getRectShape",
 			false
 		);
 		libWrapper.unregister(
